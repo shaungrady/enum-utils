@@ -177,6 +177,12 @@ const PrioritySelect = () => {
 > ```
 >
 > ```ts
+> enum Color {
+>   Red,
+>   Green,
+>   Blue,
+> }
+>
 > EnumSet.fromEnum(Color);
 > ```
 
@@ -258,6 +264,7 @@ const PrioritySelect = () => {
 >   [Locale.esMX]: 'es',
 > } as const);
 >
+> // We can optionally constrain the values to a type
 > const localeI18nKeys = locales.toEnumMap<I18nKeys>({
 >   [Locale.enUS]: 'common.americanEnglish',
 >   [Locale.enGB]: 'common.britishEnglish',
@@ -301,7 +308,13 @@ const PrioritySelect = () => {
 > ```
 >
 > ```ts
-> EnumMap.fromEnum(Color, {
+> enum Color {
+>   Red,
+>   Green,
+>   Blue,
+> }
+>
+> const colorToHexMap = EnumMap.fromEnum(Color, {
 >   [Color.Red]: '#f00',
 >   [Color.Green]: '#0f0',
 >   [Color.Blue]: '#00f',
