@@ -18,6 +18,7 @@
 		"build": "del-cli dist && tsc --project tsconfig.dist.json",
 		"test": "npm run lint && tsc --noEmit && ava",
 		"lint": "xo --fix && prettier -w ./src ./test",
+		"release": "np",
 		"util:readme-toc": "doctoc README.md --github",
 		"util:watch:test": "ava --watch"
 	},
