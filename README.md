@@ -162,116 +162,125 @@ const PrioritySelect = () => {
 
 #### `EnumSet()`
 
-> Although `new EnumSet()` can be called with the same value signature of `Set`,
-> the type arguments aren't very developer-friendly; instead, it's recommended
-> to make use of the `EnumSet.fromEnum()` static method.
+Although `new EnumSet()` can be called with the same value signature of `Set`,
+the type arguments aren't very developer-friendly; instead, it's recommended to
+make use of the `EnumSet.fromEnum()` static method.
+
+<br>
 
 ### Static methods
 
 #### `EnumSet.fromEnum()`
 
-> Creates an `EnumSet` from an enum.
->
-> ```ts
-> fromEnum(Enum);
-> ```
->
-> ```ts
-> enum Color {
->   Red,
->   Green,
->   Blue,
-> }
->
-> EnumSet.fromEnum(Color);
-> ```
+Creates an `EnumSet` from an enum.
+
+```ts
+fromEnum(Enum);
+```
+
+```ts
+enum Color {
+  Red,
+  Green,
+  Blue,
+}
+
+EnumSet.fromEnum(Color);
+```
+
+<br>
 
 ### Instance methods
 
 #### `EnumSet.prototype.has()`
 
-> Returns a boolean indicating whether a value is a member of the enum or not.
-> Acts as a type guard.
->
-> ```ts
-> has(value);
-> ```
->
-> ```ts
-> const colors = EnumSet.fromEnum(Color);
-> const value: unknown = router.query.color;
-> let color: Color;
->
-> if (colorToHexMap.has(value)) {
->   color = value;
-> }
-> ```
+Returns a boolean indicating whether a value is a member of the enum or not.
+Acts as a type guard.
+
+```ts
+has(value);
+```
+
+```ts
+const colors = EnumSet.fromEnum(Color);
+const value: unknown = router.query.color;
+let color: Color;
+if (colorToHexMap.has(value)) {
+  color = value;
+}
+```
+
+<br>
 
 #### `EnumMap.prototype.subset()`
 
-> Returns an `EnumSet` that's a subset of the current `EnumSet`.
->
-> ```ts
-> subset([Enum]);
-> ```
->
-> ```ts
-> enum Locale {
->   enUS = 'en-US',
->   enGB = 'en-GB',
->   frCA = 'fr-CA',
->   esMX = 'es-MX',
->   jaJP = 'ja-JP',
-> }
->
-> const siteLocales = EnumSet.from(Locale);
->
-> const videoLocales = siteLocales.subset([
->   Locale.enUS,
->   Locale.enGB,
->   Locale.esMX,
-> ]);
->
-> if (videoLocales.has(value)) {
->   // typeof value ⮕ `Locale.enUS | Locale.enGB | Locale.esMX`
-> }
-> ```
+Returns an `EnumSet` that's a subset of the current `EnumSet`.
+
+```ts
+subset([Enum]);
+```
+
+```ts
+enum Locale {
+  enUS = 'en-US',
+  enGB = 'en-GB',
+  frCA = 'fr-CA',
+  esMX = 'es-MX',
+  jaJP = 'ja-JP',
+}
+
+const siteLocales = EnumSet.from(Locale);
+
+const videoLocales = siteLocales.subset([
+  Locale.enUS,
+  Locale.enGB,
+  Locale.esMX,
+]);
+
+if (videoLocales.has(value)) {
+  // typeof value ⮕ `Locale.enUS | Locale.enGB | Locale.esMX`
+}
+```
+
+<br>
 
 #### `EnumMap.prototype.toEnumMap()`
 
-> Returns an `EnumMap` with a mapping of set members to values. Use a `const`
-> assertion on the mapping argument for maximum type safety. Mapping is
-> exhaustive, so each `EnumSet` member must be used as a property key.
->
-> ```ts
-> EnumMap(mapping);
-> ```
->
-> ```ts
-> enum Locale {
->   enUS = 'en-US',
->   enGB = 'en-GB',
->   frCA = 'fr-CA',
->   esMX = 'es-MX',
-> }
->
-> const locales = EnumSet.from(Locale);
->
-> const localeFileSuffixes = locales.toEnumMap({
->   [Locale.enUS]: 'en',
->   [Locale.enGB]: 'en',
->   [Locale.frCA]: 'fr-ca',
->   [Locale.esMX]: 'es',
-> } as const);
->
-> // We can optionally constrain the values to a type
-> const localeI18nKeys = locales.toEnumMap<I18nKeys>({
->   [Locale.enUS]: 'common.americanEnglish',
->   [Locale.enGB]: 'common.britishEnglish',
->   [Locale.frCA]: 'common.canadianFrench',
->   [Locale.esMX]: 'common.mexicanSpanish',
-> } as const);
-> ```
+Returns an `EnumMap` with a mapping of set members to values. Use a `const`
+assertion on the mapping argument for maximum type safety. Mapping is
+exhaustive, so each `EnumSet` member must be used as a property key.
+
+```ts
+EnumMap(mapping);
+```
+
+```ts
+enum Locale {
+  enUS = 'en-US',
+  enGB = 'en-GB',
+  frCA = 'fr-CA',
+  esMX = 'es-MX',
+}
+
+const locales = EnumSet.from(Locale);
+
+const localeFileSuffixes = locales.toEnumMap({
+  [Locale.enUS]: 'en',
+  [Locale.enGB]: 'en',
+  [Locale.frCA]: 'fr-ca',
+  [Locale.esMX]: 'es',
+} as const);
+
+// We can optionally constrain the values to a type
+const localeI18nKeys = locales.toEnumMap<I18nKeys>({
+  [Locale.enUS]: 'common.americanEnglish',
+  [Locale.enGB]: 'common.britishEnglish',
+  [Locale.frCA]: 'common.canadianFrench',
+  [Locale.esMX]: 'common.mexicanSpanish',
+} as const);
+```
+
+<br>
 
 #### `EnumMap.prototype.keys()`
 
@@ -281,9 +290,11 @@ const PrioritySelect = () => {
 
 #### `EnumMap.prototype.forEach()`
 
-> These methods behave identically to the `Set` class.
-> [See MDN documentation](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)
-> for more details.
+These methods behave identically to the `Set` class.
+[See MDN documentation](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)
+for more details.
+
+<br>
 
 ## EnumMap
 
@@ -291,86 +302,92 @@ const PrioritySelect = () => {
 
 #### `EnumMap()`
 
-> Although `new EnumMap()` can be called with the same value signature of `Map`,
-> the type arguments aren't very developer-friendly; instead, it's recommended
-> to make use of the `EnumMap.fromEnum()` static method.
+Although `new EnumMap()` can be called with the same value signature of `Map`,
+the type arguments aren't very developer-friendly; instead, it's recommended to
+make use of the `EnumMap.fromEnum()` static method.
+
+<br>
 
 ### Static methods
 
 #### `EnumMap.fromEnum()`
 
-> Creates an EnumMap from an enum and a mapping of members to values. Use a
-> `const` assertion on the mapping argument for maximum type safety. Mapping is
-> exhaustive, so each enum member must be used as a property key.
->
-> ```ts
-> fromEnum(Enum, mapping as const);
-> ```
->
-> ```ts
-> enum Color {
->   Red,
->   Green,
->   Blue,
-> }
->
-> const colorToHexMap = EnumMap.fromEnum(Color, {
->   [Color.Red]: '#f00',
->   [Color.Green]: '#0f0',
->   [Color.Blue]: '#00f',
-> } as const);
-> ```
+Creates an EnumMap from an enum and a mapping of members to values. Use a
+`const` assertion on the mapping argument for maximum type safety. Mapping is
+exhaustive, so each enum member must be used as a property key.
+
+```ts
+fromEnum(Enum, mapping as const);
+```
+
+```ts
+enum Color {
+  Red,
+  Green,
+  Blue,
+}
+
+const colorToHexMap = EnumMap.fromEnum(Color, {
+  [Color.Red]: '#f00',
+  [Color.Green]: '#0f0',
+  [Color.Blue]: '#00f',
+} as const);
+```
+
+<br>
 
 ### Instance methods
 
 #### `EnumMap.prototype.has()`
 
-> Returns a boolean indicating whether a value is a member of the enum or not.
-> Acts as a type guard.
->
-> ```ts
-> has(value);
-> ```
->
-> ```ts
-> const colorToHexMap = EnumMap.fromEnum(Color, {
->   [Color.Red]: '#f00',
->   [Color.Green]: '#0f0',
->   [Color.Blue]: '#00f',
-> } as const);
->
-> const value: unknown = router.query.color;
-> let color: Color;
->
-> if (colorToHexMap.has(value)) {
->   color = value;
-> }
-> ```
+Returns a boolean indicating whether a value is a member of the enum or not.
+Acts as a type guard.
+
+```ts
+has(value);
+```
+
+```ts
+const colorToHexMap = EnumMap.fromEnum(Color, {
+  [Color.Red]: '#f00',
+  [Color.Green]: '#0f0',
+  [Color.Blue]: '#00f',
+} as const);
+
+const value: unknown = router.query.color;
+let color: Color;
+
+if (colorToHexMap.has(value)) {
+  color = value;
+}
+```
+
+<br>
 
 #### `EnumMap.prototype.get()`
 
-> Returns the value associated to the passed enum member, or undefined if there
-> is none. Use the `has()` method to return map value types that aren't a union
-> with `undefined`.
->
-> ```ts
-> get(value);
-> ```
->
-> ```ts
-> const colorToHexMap = EnumMap.fromEnum(Color, {
->   [Color.Red]: '#f00',
->   [Color.Green]: '#0f0',
->   [Color.Blue]: '#00f',
-> } as const);
->
-> const value: unknown = router.query.color;
-> let colorHex: '#f00' | '#0f0' | '#00f';
->
-> if (colorToHexMap.has(value)) {
->   colorHex = colorToHexMap.get(value);
-> }
-> ```
+Returns the value associated to the passed enum member, or undefined if there is
+none. Use the `has()` method to return map value types that aren't a union with
+`undefined`.
+
+```ts
+get(value);
+```
+
+```ts
+const colorToHexMap = EnumMap.fromEnum(Color, {
+  [Color.Red]: '#f00',
+  [Color.Green]: '#0f0',
+  [Color.Blue]: '#00f',
+} as const);
+
+const value: unknown = router.query.color;
+let colorHex: '#f00' | '#0f0' | '#00f';
+
+if (colorToHexMap.has(value)) {
+  colorHex = colorToHexMap.get(value);
+}
+```
 
 #### `EnumMap.prototype.keys()`
 
@@ -380,6 +397,6 @@ const PrioritySelect = () => {
 
 #### `EnumMap.prototype.forEach()`
 
-> These methods behave identically to the `Map` class.
-> [See MDN documentation](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
-> for more details.
+These methods behave identically to the `Map` class.
+[See MDN documentation](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
+for more details.
