@@ -102,6 +102,17 @@ test("'toEnumMap' constructs an EnumMap", (t) => {
 	t.deepEqual(values, ['Zero', 'One', 'Alpha', 'Bravo']);
 });
 
+test("'toEnumMap' mappings are exhaustive", (t) => {
+	const set = createSet();
+
+	// @ts-expect-error
+	const map = set.toEnumMap({
+		[HeterogeneousEnum.Zero]: 'Zero',
+	});
+
+	t.pass();
+});
+
 test("'values' returns enum values", (t) => {
 	const set = createSet();
 	t.snapshot(set.values());
