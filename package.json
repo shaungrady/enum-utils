@@ -1,25 +1,19 @@
 {
 	"name": "@sg.js/enum-utils",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "Work with enums through familiar Set and Map interfaces.",
 	"license": "MIT",
+	"repository": "github:shaungrady/enum-utils",
 	"author": {
 		"name": "Shaun Grady",
 		"email": "grady@shaungrady.com",
 		"url": "https://shaungrady.com"
 	},
+	"homepage": "https://github.com/shaungrady/enum-utils#readme",
 	"type": "module",
 	"main": "./dist/main.js",
-	"exports": {
-		"./*": "./dist/*.js"
-	},
-	"typesVersions": {
-		"*": {
-			"*": [
-				"dist/*"
-			]
-		}
-	},
+	"exports": "./dist/main.js",
+	"types": "./dist/main.d.ts",
 	"scripts": {
 		"build": "del-cli dist && tsc --project tsconfig.dist.json",
 		"test": "npm run lint && tsc --noEmit && ava",
@@ -37,7 +31,8 @@
 		"map",
 		"EnumSet",
 		"EnumMap",
-		"utils"
+		"utils",
+		"types"
 	],
 	"dependencies": {
 		"type-fest": "^3.8.0"

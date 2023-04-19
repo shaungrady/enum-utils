@@ -5,6 +5,8 @@ with numeric, string, and heterogeneous enums, and allows for easy enum type
 guarding, creation of enum subsets, and safe mapping of enums to anything
 else—even other enums!
 
+###### Package: [GitHub](https://github.com/shaungrady/enum-utils), [npm](https://www.npmjs.com/package/@sg.js/enum-utils)  |  Author: [Shaun Grady](https://shaungrady.com/)
+
 ## Install
 
 ```sh
@@ -17,25 +19,26 @@ _Requires TypeScript `>=4.7`_
 
 **Classes**
 
-- `EnumSet`: **Use an enum as an immutable Set.**
+**`EnumSet`: Use an enum as an immutable Set.**
 
-  - Construction via `fromEnum(Enum)` method takes a single enum argument.
-  - `has(value)` is a type guard for narrowing serialized values types to the
-    enum.
-  - `subset(Enum[])` safely creates an `EnumSet` with a subset of enum members.
-  - `toEnumMap(mapping)` creates an `EnumMap`, safely mapping an enum (or enum
-    subset) to anything.
-  - Shares `Set` iterable methods.
+- Construction via `fromEnum(Enum)` method takes a single enum argument.
+- `has(value)` is a type guard for narrowing serialized values types to the
+  enum.
+- `subset(Enum[])` safely creates an `EnumSet` from a subset of enum members.
+- `toEnumMap(mapping)` creates an `EnumMap`, safely mapping an enum (or enum
+  subset) to anything.
+- Shares `Set` iterable methods.
 
-- `EnumMap`: **Use an enum as an immutable Map.**
-  - Construction via `fromEnum(Enum, { [Enum]: any })` provides exhaustive type
-    safety for map keys while preventing numeric enum keys from being coerced to
-    strings.
-  - `has(value)` is a type guard for narrowing serialized values types to the
-    enum.
-  - `get()` has dynamically-typed return value; `has()` guarded values always
-    return a value and illegal enum values always return `undefined`.
-  - Shares `Map` iterable methods.
+**`EnumMap`: Use an enum as an immutable Map.**
+
+- Construction via `fromEnum(Enum, { [Enum]: any })` provides exhaustive type
+  safety for map keys while preventing numeric enum keys from being coerced to
+  strings.
+- `has(value)` is a type guard for narrowing serialized values types to the
+  enum.
+- `get()` has dynamically-typed return value; `has()` guarded values always
+  return a value and illegal enum values always return `undefined`.
+- Shares `Map` iterable methods.
 
 **Functions**
 
@@ -203,7 +206,7 @@ const PrioritySelect = () => {
 > Returns an `EnumSet` that's a subset of the current `EnumSet`.
 >
 > ```ts
-> subset(Enum[]);
+> subset([Enum]);
 > ```
 >
 > ```ts
@@ -253,6 +256,13 @@ const PrioritySelect = () => {
 >   [Locale.enGB]: 'en',
 >   [Locale.frCA]: 'fr-ca',
 >   [Locale.esMX]: 'es',
+> } as const);
+>
+> const localeI18nKeys = locales.toEnumMap<I18nKeys>({
+>   [Locale.enUS]: 'common.americanEnglish',
+>   [Locale.enGB]: 'common.britishEnglish',
+>   [Locale.frCA]: 'common.canadianFrench',
+>   [Locale.esMX]: 'common.mexicanSpanish',
 > } as const);
 > ```
 
