@@ -1,6 +1,6 @@
 {
-	"name": "enum-utils",
-	"version": "0.0.1",
+	"name": "@sg.js/enum-utils",
+	"version": "0.0.0",
 	"description": "Work with enums through familiar Set and Map interfaces.",
 	"license": "MIT",
 	"author": {
@@ -84,5 +84,9 @@
 			"unicorn/no-array-callback-reference": "off",
 			"@typescript-eslint/member-ordering": "off"
 		}
+	},
+	"volta": {
+		"node": "18.16.0",
+		"npm": "8.19.4"
 	}
 }
