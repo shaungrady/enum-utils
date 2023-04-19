@@ -31,11 +31,8 @@ export default class EnumSet<TEnumMember extends EnumMember>
 	subset = <T extends TEnumMember[]>(members: T): EnumSet<T[number]> =>
 		new EnumSet(members.filter(this.has));
 
-	toEnumMap = <
-		TRecord extends Record<TEnumMember, any>,
-		TRecordValue extends TRecord[keyof TRecord]
-	>(
-		mappings: TRecord
+	toEnumMap = <TRecordValue = any>(
+		mappings: Record<TEnumMember, TRecordValue>
 	) => {
 		const enumMapTuples = Array.from(this.#set).map(
 			(member) => [member, mappings[member]] as const
@@ -44,7 +41,7 @@ export default class EnumSet<TEnumMember extends EnumMember>
 		return new EnumMap<
 			Record<string, TEnumMember>,
 			TEnumMember,
-			TRecord,
+			typeof mappings,
 			TRecordValue
 		>(enumMapTuples);
 	};

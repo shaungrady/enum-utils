@@ -83,6 +83,7 @@ test('ergonomically filters', (t) => {
 
 test("'toEnumMap' constructs an EnumMap", (t) => {
 	const set = createSet();
+
 	const map = set.toEnumMap({
 		[HeterogeneousEnum.Zero]: 'Zero',
 		[HeterogeneousEnum.One]: 'One',
@@ -106,8 +107,22 @@ test("'toEnumMap' mappings are exhaustive", (t) => {
 	const set = createSet();
 
 	// @ts-expect-error
-	const map = set.toEnumMap({
+	set.toEnumMap({
 		[HeterogeneousEnum.Zero]: 'Zero',
+	});
+
+	t.pass();
+});
+
+test("'toEnumMap' mapping values can be set via type argument", (t) => {
+	const set = createSet();
+
+	set.toEnumMap<1 | 2 | 3 | '4'>({
+		[HeterogeneousEnum.Zero]: 1,
+		[HeterogeneousEnum.One]: 2,
+		[HeterogeneousEnum.Alpha]: 3,
+		// @ts-expect-error
+		[HeterogeneousEnum.Bravo]: 4,
 	});
 
 	t.pass();
