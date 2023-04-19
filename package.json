@@ -1,0 +1,88 @@
+{
+	"name": "enum-utils",
+	"version": "0.0.1",
+	"description": "Work with enums through familiar Set and Map interfaces.",
+	"license": "MIT",
+	"author": {
+		"name": "Shaun Grady",
+		"email": "grady@shaungrady.com",
+		"url": "https://shaungrady.com"
+	},
+	"type": "module",
+	"main": "./dist/main.js",
+	"exports": {
+		"./*": "./dist/*.js"
+	},
+	"typesVersions": {
+		"*": {
+			"*": [
+				"dist/*"
+			]
+		}
+	},
+	"scripts": {
+		"build": "del-cli dist && tsc --project tsconfig.dist.json",
+		"test": "npm run lint && tsc --noEmit && ava",
+		"lint": "xo --fix && prettier -w ./src ./test",
+		"util:readme-toc": "doctoc README.md --github",
+		"util:watch:test": "ava --watch"
+	},
+	"files": [
+		"dist"
+	],
+	"keywords": [
+		"typescript",
+		"enum",
+		"set",
+		"map",
+		"EnumSet",
+		"EnumMap",
+		"utils"
+	],
+	"dependencies": {
+		"type-fest": "^3.8.0"
+	},
+	"devDependencies": {
+		"@esbuild-kit/esm-loader": "^2.5.5",
+		"@types/node": "^18.15.11",
+		"ava": "^5.2.0",
+		"del-cli": "^5.0.0",
+		"doctoc": "^2.2.1",
+		"expect-type": "^0.15.0",
+		"prettier": "^2.8.7",
+		"ts-jest": "^29.1.0",
+		"typescript": "^5.0.4",
+		"xo": "^0.54.1"
+	},
+	"prettier": {
+		"proseWrap": "always"
+	},
+	"ava": {
+		"files": [
+			"test/**/*",
+			"!test/utils"
+		],
+		"extensions": {
+			"ts": "module"
+		},
+		"nodeArguments": [
+			"--loader=@esbuild-kit/esm-loader",
+			"--no-warnings"
+		]
+	},
+	"xo": {
+		"ignores": [
+			"test/**"
+		],
+		"prettier": true,
+		"rules": {
+			"prettier/prettier": "off",
+			"unicorn/filename-case": "off",
+			"@typescript-eslint/ban-ts-comment": "off",
+			"import/extensions": "off",
+			"@typescript-eslint/naming-convention": "off",
+			"unicorn/no-array-callback-reference": "off",
+			"@typescript-eslint/member-ordering": "off"
+		}
+	}
+}

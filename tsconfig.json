@@ -1,0 +1,15 @@
+{
+	"include": ["src", "test"],
+
+	"compilerOptions": {
+		"outDir": "dist",
+		"target": "ES2015",
+		"lib": ["ES2015"],
+		"module": "ES2015",
+		"moduleResolution": "Node",
+		"strict": true,
+		"sourceMap": true,
+		"declaration": true,
+		"pretty": true
+	}
+}
