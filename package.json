@@ -46,11 +46,13 @@
 		"doctoc": "^2.2.1",
 		"expect-type": "^0.15.0",
 		"prettier": "^2.8.7",
+		"prettier-plugin-jsdoc": "^0.4.2",
 		"ts-jest": "^29.1.0",
 		"typescript": "^5.0.4",
 		"xo": "^0.54.1"
 	},
 	"prettier": {
+		"plugins": ["prettier-plugin-jsdoc"],
 		"proseWrap": "always"
 	},
 	"ava": {

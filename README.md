@@ -17,7 +17,7 @@ _Requires TypeScript `>=4.7`_
 
 ## What's Inside
 
-**Classes**
+### Classes
 
 **`EnumSet`: Use an enum as an immutable Set.**
 
@@ -40,7 +40,7 @@ _Requires TypeScript `>=4.7`_
   return a value and illegal enum values always return `undefined`.
 - Shares `Map` iterable methods.
 
-**Functions**
+### Functions
 
 - `enumToSet`: Convert an enum object to Set of enum members.
 - `isEnumMember`: Type guard for a given enum.
@@ -52,109 +52,112 @@ _Requires TypeScript `>=4.7`_
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Usage Examples](#usage-examples)
-  - [EnumSet](#enumset)
-  - [EnumMap](#enummap)
-- [Documentation](#documentation)
-  - [EnumSet](#enumset-1)
-    - [Construction](#construction)
-      - [`EnumSet()`](#enumset)
-    - [Static methods](#static-methods)
-      - [`EnumSet.fromEnum()`](#enumsetfromenum)
-    - [Instance methods](#instance-methods)
-      - [`EnumSet.prototype.has()`](#enumsetprototypehas)
-      - [`EnumMap.prototype.subset()`](#enummapprototypesubset)
-      - [`EnumMap.prototype.toEnumMap()`](#enummapprototypetoenummap)
-      - [`EnumMap.prototype.keys()`](#enummapprototypekeys)
-      - [`EnumMap.prototype.values()`](#enummapprototypevalues)
-      - [`EnumMap.prototype.entries()`](#enummapprototypeentries)
-      - [`EnumMap.prototype.forEach()`](#enummapprototypeforeach)
-  - [EnumMap](#enummap-1)
-    - [Construction](#construction-1)
-      - [`EnumMap()`](#enummap)
-    - [Static methods](#static-methods-1)
-      - [`EnumMap.fromEnum()`](#enummapfromenum)
-    - [Instance methods](#instance-methods-1)
-      - [`EnumMap.prototype.has()`](#enummapprototypehas)
-      - [`EnumMap.prototype.get()`](#enummapprototypeget)
-      - [`EnumMap.prototype.keys()`](#enummapprototypekeys-1)
-      - [`EnumMap.prototype.values()`](#enummapprototypevalues-1)
-      - [`EnumMap.prototype.entries()`](#enummapprototypeentries-1)
-      - [`EnumMap.prototype.forEach()`](#enummapprototypeforeach-1)
+- [Usage Example](#usage-example)
+- [EnumSet](#enumset)
+  - [Construction](#construction)
+    - [`EnumSet()`](#enumset)
+  - [Static methods](#static-methods)
+    - [`EnumSet.fromEnum()`](#enumsetfromenum)
+  - [Instance methods](#instance-methods)
+    - [`EnumSet.prototype.has()`](#enumsetprototypehas)
+    - [`EnumSet.prototype.subset()`](#enumsetprototypesubset)
+    - [`EnumSet.prototype.toEnumMap()`](#enumsetprototypetoenummap)
+    - [`EnumSet.prototype.size`](#enumsetprototypesize)
+    - [`EnumSet.prototype.keys()`](#enumsetprototypekeys)
+    - [`EnumSet.prototype.values()`](#enumsetprototypevalues)
+    - [`EnumSet.prototype.entries()`](#enumsetprototypeentries)
+    - [`EnumSet.prototype.forEach()`](#enumsetprototypeforeach)
+- [EnumMap](#enummap)
+  - [Construction](#construction-1)
+    - [`EnumMap()`](#enummap)
+  - [Static methods](#static-methods-1)
+    - [`EnumMap.fromEnum()`](#enummapfromenum)
+  - [Instance methods](#instance-methods-1)
+    - [`EnumMap.prototype.has()`](#enummapprototypehas)
+    - [`EnumMap.prototype.get()`](#enummapprototypeget)
+    - [`EnumMap.prototype.size`](#enummapprototypesize)
+    - [`EnumMap.prototype.keys()`](#enummapprototypekeys)
+    - [`EnumMap.prototype.values()`](#enummapprototypevalues)
+    - [`EnumMap.prototype.entries()`](#enummapprototypeentries)
+    - [`EnumMap.prototype.forEach()`](#enummapprototypeforeach)
+- [enumToSet()](#enumtoset)
+- [isEnumMember()](#isenummember)
+- [isValidEnumMember()](#isvalidenummember)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Usage Examples
-
-### EnumSet
-
-```tsx
-enum Action {
-  Create = 'create',
-  Duplicate = 'duplicate',
-  Update = 'update',
-  Destroy = 'destroy',
-}
-
-const allActions = EnumSet.fromEnum(Action);
-
-// Create a subset of an enum with the `subset()` method.
-const userActions = allActions.subset([Action.Create, Action.Duplicate]);
-
-const Component = () => {
-  const { isAdmin } = useSession();
-  const { query } = useRouter();
-  const { action } = query; // typeof action => string
-  const allowedActions = isAdmin ? allActions : userActions;
-
-  // Type guard a value with the `has()` method.
-  if (!allowedActions.has(action)) {
-    const actions = [...allowedActions].join(', ');
-    throw new Error(`searchParam 'action' must be one of: ${actions}.`);
-  }
-
-  // Type guarding enables exhaustive switch statements
-  switch (
-    action // typeof action => Action
-  ) {
-    case Action.Create: // …
-    case Action.Duplicate: // …
-    case Action.Update: // …
-    case Action.Destroy: // …
-  }
-};
-```
-
-### EnumMap
+## Usage Example
 
 ```tsx
 enum Priority {
-  Low,
-  Medium,
-  High,
+  Low = 'L',
+  Medium = 'M',
+  High = 'H',
+  ThisIsFine = 'OhNo',
 }
 
-const priorityI18nMap = EnumMap.fromEnum(Priority, {
-  [Priority.Low]: 'common.priority.low',
-  [Priority.Medium]: 'common.priority.medium',
-  [Priority.High]: 'common.priority.high',
-} as const);
+// Define our base EnumSet with all Priority members
+const priorities = EnumSet.fromEnum(Priority);
+// EnumSets are immutable, so aliasing to another variable is safe.
+const adminPriorities = priorities;
+
+// Non-admins will only be allowed to use a subset of priorities.
+const userPriorities = adminPriorities.subset([
+  Priority.Low,
+  Priority.Medium,
+  Priority.High,
+]);
+
+// Create a map with values constrained to a union of i18n keys.
+priorityI18nMap = priorities.toEnumMap<I18nKey>({
+  [Priority.Low]: 'common.low',
+  [Priority.Medium]: 'common.medium',
+  [Priority.High]: 'common.high',
+  [Priority.ThisIsFine]: 'common.makeItStop',
+});
+// EnumMaps can also be constructed like this:
+//   EnumMap.fromEnum(Priority, { … } as const)
+// However, value types aren't as easily constrained with a single type argument,
+// so using the `as const` assertion for the mapping is recommended
+// for maximum type safety.
 
 const PrioritySelect = () => {
   const { t } = useTranslation();
 
+  // Determine which Priority to set based on user's role
+  const { isAdmin } = useSession();
+  const allowedPriorities = isAdmin ? adminPriorities : userPriorities;
+
+  // This component allows a `priorityLock` search param to be set that disables
+  // the priority select with the given priority. Very secure. 👌
+  const { query } = useRouter();
+  const priorityLock: unknown = query.priorityLock;
+  const hasPriorityLock = priorityLock != null;
+
+  // Guard `priorityLock` to our Priority enum type
+  if (hasPriorityLock && !allowedPriorities.has(priorityLock)) {
+    const priorityList = [...allowedPriorities].join(', ');
+    throw new Error(
+      `searchParam 'lockPriority' must be one of: ${priorityList}.`
+    );
+  }
+
+  const [priority, setPriority] = useState<Priority>(
+    priorityLock ?? allowedPriorities.values().next().value
+  );
+
   return (
     <Select
-      options={[...priorityI18nMap.keys()]}
-      renderLabel={(value) => t(priorityI18nMap.get(value))}
+      onchange={setPriority}
+      disabled={hasPriorityLock}
+      optionValues={Array.from(allowedPriorities)}
+      renderOption={(priority: Priority) => t(priorityI18nMap.get(priority))}
     />
   );
 };
 ```
 
 ---
-
-# Documentation
 
 ## EnumSet
 
@@ -172,7 +175,7 @@ make use of the `EnumSet.fromEnum()` static method.
 
 #### `EnumSet.fromEnum()`
 
-Creates an `EnumSet` from an enum.
+Creates a new `EnumSet` instance from the given enum object.
 
 ```ts
 fromEnum(Enum);
@@ -185,7 +188,7 @@ enum Color {
   Blue,
 }
 
-EnumSet.fromEnum(Color);
+const colors = EnumSet.fromEnum(Color);
 ```
 
 <br>
@@ -194,8 +197,9 @@ EnumSet.fromEnum(Color);
 
 #### `EnumSet.prototype.has()`
 
-Returns a boolean indicating whether a value is a member of the enum or not.
-Acts as a type guard.
+The **has()** method returns a boolean indicating whether an enum member with
+the specified value exists in the `EnumSet` object or not, acting as a
+[type guard](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates).
 
 ```ts
 has(value);
@@ -205,6 +209,7 @@ has(value);
 const colors = EnumSet.fromEnum(Color);
 const value: unknown = router.query.color;
 let color: Color;
+
 if (colorToHexMap.has(value)) {
   color = value;
 }
@@ -212,9 +217,10 @@ if (colorToHexMap.has(value)) {
 
 <br>
 
-#### `EnumMap.prototype.subset()`
+#### `EnumSet.prototype.subset()`
 
-Returns an `EnumSet` that's a subset of the current `EnumSet`.
+The **subset()** method returns a new `EnumSet` instance containing only the
+enum members specified, which must be members of the `EnumSet`.
 
 ```ts
 subset([Enum]);
@@ -244,11 +250,13 @@ if (videoLocales.has(value)) {
 
 <br>
 
-#### `EnumMap.prototype.toEnumMap()`
+#### `EnumSet.prototype.toEnumMap()`
 
-Returns an `EnumMap` with a mapping of set members to values. Use a `const`
-assertion on the mapping argument for maximum type safety. Mapping is
-exhaustive, so each `EnumSet` member must be used as a property key.
+Returns an `EnumMap` instance that maps each enum member in the `EnumSet` to a
+corresponding value in the given mappings object. The mapping object value types
+may either be inferred or defined by the optional type argument. If inferred,
+it's recommended to use the `as const` assertion on the mapping object to narrow
+the value types.
 
 ```ts
 EnumMap(mapping);
@@ -277,18 +285,20 @@ const localeI18nKeys = locales.toEnumMap<I18nKeys>({
   [Locale.enGB]: 'common.britishEnglish',
   [Locale.frCA]: 'common.canadianFrench',
   [Locale.esMX]: 'common.mexicanSpanish',
-} as const);
+});
 ```
 
 <br>
 
-#### `EnumMap.prototype.keys()`
+#### `EnumSet.prototype.size`
 
-#### `EnumMap.prototype.values()`
+#### `EnumSet.prototype.keys()`
 
-#### `EnumMap.prototype.entries()`
+#### `EnumSet.prototype.values()`
 
-#### `EnumMap.prototype.forEach()`
+#### `EnumSet.prototype.entries()`
+
+#### `EnumSet.prototype.forEach()`
 
 These methods behave identically to the `Set` class.
 [See MDN documentation](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)
@@ -304,7 +314,9 @@ for more details.
 
 Although `new EnumMap()` can be called with the same value signature of `Map`,
 the type arguments aren't very developer-friendly; instead, it's recommended to
-make use of the `EnumMap.fromEnum()` static method.
+make use of the `EnumMap.fromEnum()` static method, or the
+`EnumSet.prototype.toEnumMap()` instance method, which allows for typing the
+mapping keys more easily.
 
 <br>
 
@@ -312,9 +324,11 @@ make use of the `EnumMap.fromEnum()` static method.
 
 #### `EnumMap.fromEnum()`
 
-Creates an EnumMap from an enum and a mapping of members to values. Use a
-`const` assertion on the mapping argument for maximum type safety. Mapping is
-exhaustive, so each enum member must be used as a property key.
+Returns an `EnumMap` instance that maps each enum member in the given enum to a
+corresponding value in the given mappings object. The mapping object value types
+may either be inferred or defined by the optional type argument. If inferred,
+it's recommended to use the `as const` assertion on the mapping object to narrow
+the value types.
 
 ```ts
 fromEnum(Enum, mapping as const);
@@ -327,7 +341,7 @@ enum Color {
   Blue,
 }
 
-const colorToHexMap = EnumMap.fromEnum(Color, {
+const colorHexMap = EnumMap.fromEnum({
   [Color.Red]: '#f00',
   [Color.Green]: '#0f0',
   [Color.Blue]: '#00f',
@@ -340,8 +354,9 @@ const colorToHexMap = EnumMap.fromEnum(Color, {
 
 #### `EnumMap.prototype.has()`
 
-Returns a boolean indicating whether a value is a member of the enum or not.
-Acts as a type guard.
+The **has()** method returns a boolean indicating whether an enum member with
+the specified value exists in the `EnumMap` object or not, acting as a
+[type guard](https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates).
 
 ```ts
 has(value);
@@ -366,9 +381,10 @@ if (colorToHexMap.has(value)) {
 
 #### `EnumMap.prototype.get()`
 
-Returns the value associated to the passed enum member, or undefined if there is
-none. Use the `has()` method to return map value types that aren't a union with
-`undefined`.
+The **get()** method returns a specified element from an `EnumMap` object. If
+the key's value has been guarded by the **has()** method, then the return type
+will be non-nullish. If the key is an illegal enum member type, then return type
+will be `undefined`.
 
 ```ts
 get(value);
@@ -389,6 +405,8 @@ if (colorToHexMap.has(value)) {
 }
 ```
 
+#### `EnumMap.prototype.size`
+
 #### `EnumMap.prototype.keys()`
 
 #### `EnumMap.prototype.values()`
@@ -400,3 +418,49 @@ if (colorToHexMap.has(value)) {
 These methods behave identically to the `Map` class.
 [See MDN documentation](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map)
 for more details.
+
+## enumToSet()
+
+Converts an enum runtime object to an array of its members. This is safe to use
+with numeric, string, and heterogeneous enums.
+
+```ts
+enum Fruit {
+  Apple = 'apple',
+  Banana = 'banana',
+  Orange = 'orange',
+}
+
+const fruitSet: Set<Fruit> = enumToSet<Fruit>(Fruit);
+
+console.log(fruitSet); // ⮕ Set { 'apple', 'banana', 'orange' }
+```
+
+## isEnumMember()
+
+Checks if the given value is a valid member of the specified enum object, acting
+as a type guard.
+
+```ts
+enum CatBreed {
+  Siamese,
+  NorwegianForestCat,
+  DomesticShorthair,
+}
+
+if (isEnumMember(CatBreed, 'Greyhound')) {
+  // …
+}
+```
+
+## isValidEnumMember()
+
+Type guards values as an eligible enum member: a finite number or string.
+
+```ts
+isValidEnumMember('foo'); // ⮕ true
+isValidEnumMember(42); // ⮕ true
+
+isValidEnumMember(NaN); // ⮕ false
+isValidEnumMember({}); // ⮕ false
+```

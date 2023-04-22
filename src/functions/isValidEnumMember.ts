@@ -1,14 +1,14 @@
 import type { Finite } from 'type-fest';
 
 /**
- * Type guard for validating values as potential enum member values.
- * @param value The value to validate
+ * Type guards values as an eligible enum member: a finite number or string.
+ *
+ * @param value The value to guard.
  */
 export default function isValidEnumMember(
 	value: unknown
 ): value is string | Finite<number> {
-	return (
-		typeof value === 'string' ||
-		(typeof value === 'number' && Number.isFinite(value))
-	);
+	const type = typeof value;
+
+	return type === 'string' || (type === 'number' && Number.isFinite(value));
 }

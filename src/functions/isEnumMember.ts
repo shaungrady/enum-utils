@@ -8,6 +8,15 @@ const enumMembersByEnum = new WeakMap<
 	Set<EnumMember>
 >();
 
+/**
+ * Checks if the given value is a valid member of the specified enum object,
+ * acting as a type guard.
+ *
+ * @param enumObject The runtime representation of an enum definition.
+ * @param value The value to check enum membership with.
+ * @returns Returns true if a member with the specified value exists in the
+ *   EnumSet object; otherwise, false.
+ */
 export default function isEnumMember<
 	TEnum extends Record<StringKeyOf<TEnum>, EnumMember>,
 	TEnumMember extends TEnum[StringKeyOf<TEnum>]
