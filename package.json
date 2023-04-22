@@ -1,6 +1,6 @@
 {
 	"name": "@sg.js/enum-utils",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "Work with enums through familiar Set and Map interfaces.",
 	"license": "MIT",
 	"repository": "github:shaungrady/enum-utils",
@@ -52,7 +52,9 @@
 		"xo": "^0.54.1"
 	},
 	"prettier": {
-		"plugins": ["prettier-plugin-jsdoc"],
+		"plugins": [
+			"prettier-plugin-jsdoc"
+		],
 		"proseWrap": "always"
 	},
 	"ava": {
