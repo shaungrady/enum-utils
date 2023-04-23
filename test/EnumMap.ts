@@ -166,17 +166,17 @@ test('ergonomically filters and maps', (t) => {
 	t.deepEqual(result, [StringEnum.Bravo, StringEnum.Alpha]);
 });
 
-test("'values' returns enum values", (t) => {
-	const map = createHeterogeneousEnum();
-	t.snapshot(map.values());
-});
-
-test("'keys' returns enum values", (t) => {
+test("'keys' returns enum members", (t) => {
 	const map = createHeterogeneousEnum();
 	t.snapshot(map.keys());
 });
 
-test("'entries' returns enum values", (t) => {
+test("'values' returns mapping values", (t) => {
+	const map = createHeterogeneousEnum();
+	t.snapshot(map.values());
+});
+
+test("'entries' returns enum member and mapping value pairs", (t) => {
 	const map = createHeterogeneousEnum();
 	t.snapshot(map.entries());
 });

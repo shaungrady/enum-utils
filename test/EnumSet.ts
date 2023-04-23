@@ -128,17 +128,17 @@ test("'toEnumMap' mapping values can be set via type argument", (t) => {
 	t.pass();
 });
 
-test("'values' returns enum values", (t) => {
+test("'values' returns enum members", (t) => {
 	const set = createSet();
 	t.snapshot(set.values());
 });
 
-test("'keys' returns enum values", (t) => {
+test("'keys' returns enum members", (t) => {
 	const set = createSet();
 	t.snapshot(set.keys());
 });
 
-test("'entries' returns enum values", (t) => {
+test("'entries' returns enum members", (t) => {
 	const set = createSet();
 	t.snapshot(set.entries());
 });
