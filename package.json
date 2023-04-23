@@ -18,7 +18,7 @@
 		"build": "del-cli dist && tsc --project tsconfig.dist.json",
 		"test": "npm run lint && tsc --noEmit && ava",
 		"lint": "xo --fix && prettier -w ./src ./test",
-		"release": "np",
+		"release": "npm run build && np",
 		"util:readme-toc": "doctoc README.md --github",
 		"util:watch:test": "ava --watch"
 	},
@@ -51,6 +51,7 @@
 		"typescript": "^5.0.4",
 		"xo": "^0.54.1"
 	},
+	"packageManager": "^pnpm@8.3.0",
 	"prettier": {
 		"plugins": [
 			"prettier-plugin-jsdoc"
@@ -76,13 +77,13 @@
 		],
 		"prettier": true,
 		"rules": {
+			"@typescript-eslint/ban-ts-comment": "off",
+			"@typescript-eslint/member-ordering": "off",
+			"@typescript-eslint/naming-convention": "off",
+			"import/extensions": "off",
 			"prettier/prettier": "off",
 			"unicorn/filename-case": "off",
-			"@typescript-eslint/ban-ts-comment": "off",
-			"import/extensions": "off",
-			"@typescript-eslint/naming-convention": "off",
-			"unicorn/no-array-callback-reference": "off",
-			"@typescript-eslint/member-ordering": "off"
+			"unicorn/no-array-callback-reference": "off"
 		}
 	},
 	"volta": {
