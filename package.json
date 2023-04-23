@@ -1,6 +1,6 @@
 {
 	"name": "@sg.js/enum-utils",
-	"version": "0.1.2",
+	"version": "0.1.3",
 	"description": "Work with enums through familiar Set and Map interfaces.",
 	"license": "MIT",
 	"repository": "github:shaungrady/enum-utils",
