@@ -28,7 +28,7 @@ export default function isEnumMember<
 		return enumMembersByEnum.get(enumObject)!.has(value as any);
 	}
 
-	const enumMembers = new Set(enumToSet<TEnumMember>(enumObject));
+	const enumMembers = enumToSet<TEnumMember>(enumObject);
 	enumMembersByEnum.set(enumObject, enumMembers);
 
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
