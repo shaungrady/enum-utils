@@ -5,7 +5,7 @@ with numeric, string, and heterogeneous enums, and allows for easy enum type
 guarding, creation of enum subsets, and safe mapping of enums to anything
 else—even other enums!
 
-###### Package: [GitHub](https://github.com/shaungrady/enum-utils), [npm](https://www.npmjs.com/package/@sg.js/enum-utils)  |  Author: [Shaun Grady](https://shaungrady.com/)
+###### Package: [GitHub](https://github.com/shaungrady/enum-utils), [npm](https://www.npmjs.com/package/@sg.js/enum-utils)  |  Releases: [Changelog](https://github.com/shaungrady/enum-utils/releases)  |  Author: [Shaun Grady](https://shaungrady.com/)
 
 ## Install
 
@@ -341,7 +341,7 @@ enum Color {
   Blue,
 }
 
-const colorHexMap = EnumMap.fromEnum({
+const colorHexMap = EnumMap.fromEnum(Color, {
   [Color.Red]: '#f00',
   [Color.Green]: '#0f0',
   [Color.Blue]: '#00f',
