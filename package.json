@@ -36,20 +36,20 @@
 		"types"
 	],
 	"dependencies": {
-		"type-fest": "^3.8.0"
+		"type-fest": "^3.9.0"
 	},
 	"devDependencies": {
 		"@esbuild-kit/esm-loader": "^2.5.5",
-		"@types/node": "^18.15.13",
+		"@types/node": "^18.16.3",
 		"ava": "^5.2.0",
 		"del-cli": "^5.0.0",
 		"doctoc": "^2.2.1",
 		"expect-type": "^0.15.0",
-		"prettier": "^2.8.7",
+		"prettier": "^2.8.8",
 		"prettier-plugin-jsdoc": "^0.4.2",
 		"ts-jest": "^29.1.0",
 		"typescript": "^5.0.4",
-		"xo": "^0.54.1"
+		"xo": "^0.54.2"
 	},
 	"packageManager": "^pnpm@8.3.0",
 	"prettier": {
