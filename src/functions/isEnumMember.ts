@@ -1,6 +1,6 @@
 import type { StringKeyOf } from 'type-fest';
-import type { EnumMember } from '../types/EnumMember';
-import enumToSet from './enumToSet';
+import type { EnumMember } from '../types/EnumMember.js';
+import enumToSet from './enumToSet.js'; // WeakMap cache of previously-processed enums
 
 // WeakMap cache of previously-processed enums
 const enumMembersByEnum = new WeakMap<

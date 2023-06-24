@@ -1,6 +1,6 @@
 import test from 'ava';
-import enumToSet from '../src/functions/enumToSet';
-import { HeterogeneousEnum } from './utils/Enums';
+import enumToSet from '../src/functions/enumToSet.js';
+import { HeterogeneousEnum } from './utils/Enums.js';
 import { expectTypeOf } from 'expect-type';
 
 test('creates a Set of members', (t) => {

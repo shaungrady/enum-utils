@@ -1,7 +1,7 @@
 import test from 'ava';
 import { expectTypeOf } from 'expect-type';
-import EnumSet from '../src/classes/EnumSet';
-import { HeterogeneousEnum, NumericEnum, StringEnum } from './utils/Enums';
+import EnumSet from '../src/classes/EnumSet.js';
+import { HeterogeneousEnum, NumericEnum, StringEnum } from './utils/Enums.js';
 
 const createSet = () => EnumSet.fromEnum(HeterogeneousEnum);
 

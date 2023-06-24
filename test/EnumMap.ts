@@ -1,7 +1,7 @@
 import test from 'ava';
 import { expectTypeOf } from 'expect-type';
-import EnumMap from '../src/classes/EnumMap';
-import { NumericEnum, StringEnum, HeterogeneousEnum } from './utils/Enums';
+import EnumMap from '../src/classes/EnumMap.js';
+import { HeterogeneousEnum, NumericEnum, StringEnum } from './utils/Enums.js';
 
 const createNumericMap = () =>
 	EnumMap.fromEnum(NumericEnum, {

@@ -1,7 +1,7 @@
 import test from 'ava';
 import { expectTypeOf } from 'expect-type';
-import isEnumMember from '../src/functions/isEnumMember';
-import { NumericEnum } from './utils/Enums';
+import isEnumMember from '../src/functions/isEnumMember.js';
+import { NumericEnum } from './utils/Enums.js';
 
 test('guards valid values', (t) => {
 	const validValue = 0 as unknown;

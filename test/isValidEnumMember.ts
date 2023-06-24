@@ -1,5 +1,5 @@
 import test from 'ava';
-import isValidEnumMember from '../src/functions/isValidEnumMember';
+import isValidEnumMember from '../src/functions/isValidEnumMember.js';
 
 const macro = test.macro({
 	exec(t, input: any, expected: boolean) {

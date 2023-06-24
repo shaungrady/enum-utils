@@ -1,7 +1,7 @@
 import type { StringKeyOf } from 'type-fest';
-import enumToSet from '../functions/enumToSet';
-import type { EnumMember } from '../types/EnumMember';
-import EnumMap from './EnumMap';
+import enumToSet from '../functions/enumToSet.js';
+import type { EnumMember } from '../types/EnumMember.js';
+import EnumMap from './EnumMap.js';
 
 export default class EnumSet<TEnumMember extends EnumMember>
 	implements ReadonlySet<TEnumMember>

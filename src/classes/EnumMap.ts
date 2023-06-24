@@ -4,8 +4,8 @@ import type {
 	Opaque,
 	StringKeyOf,
 } from 'type-fest';
-import enumToSet from '../functions/enumToSet';
-import { type EnumMember } from '../types/EnumMember';
+import enumToSet from '../functions/enumToSet.js';
+import type { EnumMember } from '../types/EnumMember.js';
 
 export default class EnumMap<
 	TEnum extends Record<StringKeyOf<TEnum>, EnumMember>,

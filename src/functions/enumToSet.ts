@@ -1,5 +1,5 @@
-import type { EnumMember } from '../types/EnumMember';
-import isValidEnumMember from './isValidEnumMember';
+import type { EnumMember } from '../types/EnumMember.js';
+import { isValidEnumMember } from '../main.js';
 
 /**
  * Converts an enum runtime object to an array of its members. This is safe to
