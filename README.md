@@ -47,6 +47,17 @@ _Requires TypeScript `>=4.7`_
 - `isValidEnumMember`: Type guard for values that are strings and finite
   numbers.
 
+### Types
+
+- `EnumSetMembers<EnumSet>`: Returns either the original enum, or a union type
+  of enum members for enum subsets.
+- `EnumMapMembers<EnumMap>`: Returns either the original enum, or a union type
+  of enum members for enum subsets.
+- `EnumMapValues<EnumMap>`: Returns a union type of the EnumMap's values; works
+  best when the map object includes a
+  [const assertion](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-4.html#const-assertions).
+- `EnumMember`: A finite number or string.
+
 ## Table of Contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -431,7 +442,7 @@ enum Fruit {
   Orange = 'orange',
 }
 
-const fruitSet: Set<Fruit> = enumToSet<Fruit>(Fruit);
+const fruitSet: EnumSet<Fruit> = enumToSet<Fruit>(Fruit);
 
 console.log(fruitSet); // ⮕ Set { 'apple', 'banana', 'orange' }
 ```
