@@ -12,7 +12,7 @@ export default class EnumMap<
 	TEnumMember extends TEnum[StringKeyOf<TEnum>],
 	TRecord extends Record<TEnumMember, any>,
 	TRecordValue extends TRecord[keyof TRecord],
-	TGuarded = Opaque<TEnumMember>
+	TGuarded = Opaque<TEnumMember>,
 > implements ReadonlyMap<TEnumMember, TRecordValue>
 {
 	/**
@@ -45,10 +45,10 @@ export default class EnumMap<
 		TEnum extends Record<StringKeyOf<TEnum>, EnumMember>,
 		TEnumMember extends TEnum[StringKeyOf<TEnum>],
 		TRecord extends Record<TEnumMember, any>,
-		TRecordValue extends TRecord[keyof TRecord]
+		TRecordValue extends TRecord[keyof TRecord],
 	>(
 		enumObject: TEnum,
-		mappings: TRecord
+		mappings: TRecord,
 	): EnumMap<TEnum, TEnumMember, TRecord, TRecordValue> {
 		const enumMembers = Array.from(enumToSet<TEnumMember>(enumObject));
 		return new this(enumMembers.map((member) => [member, mappings[member]]));
@@ -78,7 +78,7 @@ export default class EnumMap<
 	 *   `EnumMap` object; otherwise false.
 	 */
 	has = (
-		value: unknown
+		value: unknown,
 	): value is TEnumMember extends number
 		? TEnumMember & TGuarded
 		: TEnumMember => this.#map.has(value as TEnumMember);
@@ -92,20 +92,20 @@ export default class EnumMap<
 	 *   type, then return type will be `undefined`.
 	 */
 	get = <T>(
-		key: T
+		key: T,
 	): T extends TEnumMember
 		? // If we're dealing with a numeric enum,
-		  T extends number
+			T extends number
 			? // Then we can only be sure it's a valid key if it's been guarded by
-			  // `has` because the types for numeric enum members are number
-			  // primitives instead of number literals, like you'd expect.
-			  T extends TGuarded
+				// `has` because the types for numeric enum members are number
+				// primitives instead of number literals, like you'd expect.
+				T extends TGuarded
 				? TRecordValue
 				: TRecordValue | undefined
 			: TRecordValue
 		: T extends LiteralToPrimitive<TEnumMember>
-		? TRecordValue | undefined
-		: IfUnknown<T, TRecordValue | undefined, undefined> =>
+			? TRecordValue | undefined
+			: IfUnknown<T, TRecordValue | undefined, undefined> =>
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-argument
 		this.#map.get(key as any) as any;
 

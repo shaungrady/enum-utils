@@ -19,7 +19,7 @@ const enumMembersByEnum = new WeakMap<
  */
 export default function isEnumMember<
 	TEnum extends Record<StringKeyOf<TEnum>, EnumMember>,
-	TEnumMember extends TEnum[StringKeyOf<TEnum>]
+	TEnumMember extends TEnum[StringKeyOf<TEnum>],
 >(enumObject: TEnum, value: unknown): value is TEnumMember {
 	const isCached = enumMembersByEnum.has(enumObject);
 

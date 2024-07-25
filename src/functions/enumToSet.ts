@@ -9,19 +9,19 @@ import isValidEnumMember from './isValidEnumMember.js';
  * @returns A Set of each enum member.
  */
 export default function enumToSet<TEnumMember extends EnumMember>(
-	enumObject: Record<string, EnumMember>
+	enumObject: Record<string, EnumMember>,
 ): Set<TEnumMember> {
 	const members = Object.values(enumObject).filter(
 		(value): value is TEnumMember => {
 			if (isValidEnumMember(value)) {
 				return typeof value === 'string'
 					? // Make sure this isn't a reverse-lookup for a numeric member
-					  typeof enumObject[value] !== 'number'
+						typeof enumObject[value] !== 'number'
 					: true;
 			}
 
 			return false;
-		}
+		},
 	);
 
 	return new Set(members);

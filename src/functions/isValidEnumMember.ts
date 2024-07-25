@@ -6,7 +6,7 @@ import type { Finite } from 'type-fest';
  * @param value The value to guard.
  */
 export default function isValidEnumMember(
-	value: unknown
+	value: unknown,
 ): value is string | Finite<number> {
 	const type = typeof value;
 

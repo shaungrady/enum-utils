@@ -23,7 +23,7 @@ export default class EnumSet<TEnumMember extends EnumMember>
 	 */
 	static fromEnum<
 		TEnum extends Record<StringKeyOf<TEnum>, EnumMember>,
-		TEnumMember extends TEnum[StringKeyOf<TEnum>]
+		TEnumMember extends TEnum[StringKeyOf<TEnum>],
 	>(enumObject: TEnum): EnumSet<TEnumMember> {
 		return new this(enumToSet<TEnumMember>(enumObject));
 	}
@@ -91,10 +91,10 @@ export default class EnumSet<TEnumMember extends EnumMember>
 	 *   corresponding values.
 	 */
 	toEnumMap = <TRecordValue = any>(
-		mappings: Record<TEnumMember, TRecordValue>
+		mappings: Record<TEnumMember, TRecordValue>,
 	) => {
 		const enumMapTuples = Array.from(this.#set).map(
-			(member) => [member, mappings[member]] as const
+			(member) => [member, mappings[member]] as const,
 		);
 
 		return new EnumMap<
