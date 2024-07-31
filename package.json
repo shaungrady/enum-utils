@@ -1,6 +1,6 @@
 {
 	"name": "@sg.js/enum-utils",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Work with enums through familiar Set and Map interfaces.",
 	"keywords": [
 		"typescript",
