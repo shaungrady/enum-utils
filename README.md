@@ -149,12 +149,12 @@ const PrioritySelect = () => {
   if (hasPriorityLock && !allowedPriorities.has(priorityLock)) {
     const priorityList = [...allowedPriorities].join(', ');
     throw new Error(
-      `searchParam 'lockPriority' must be one of: ${priorityList}.`
+      `searchParam 'lockPriority' must be one of: ${priorityList}.`,
     );
   }
 
   const [priority, setPriority] = useState<Priority>(
-    priorityLock ?? allowedPriorities.values().next().value
+    priorityLock ?? allowedPriorities.values().next().value,
   );
 
   return (
@@ -270,34 +270,80 @@ it's recommended to use the `as const` assertion on the mapping object to narrow
 the value types.
 
 ```ts
-EnumMap(mapping);
+toEnumMap(mapping);
 ```
+
+Given the following `locales` `EnumSet` instance…
 
 ```ts
 enum Locale {
   enUS = 'en-US',
   enGB = 'en-GB',
   frCA = 'fr-CA',
-  esMX = 'es-MX',
 }
 
 const locales = EnumSet.from(Locale);
+```
 
+An `EnumMap` can be created with `string` type values thusly:
+
+```ts
 const localeFileSuffixes = locales.toEnumMap({
   [Locale.enUS]: 'en',
   [Locale.enGB]: 'en',
   [Locale.frCA]: 'fr-ca',
-  [Locale.esMX]: 'es',
-} as const);
+});
 
-// We can optionally constrain the values to a type
+const value: string = localeFileSuffixes.get(Locale.enUS);
+```
+
+However, there are a few ways to increase the type safety of your map values. We
+can define the map's value type by passing it as the first type argument of the
+method:
+
+```ts
 const localeI18nKeys = locales.toEnumMap<I18nKeys>({
   [Locale.enUS]: 'common.americanEnglish',
   [Locale.enGB]: 'common.britishEnglish',
   [Locale.frCA]: 'common.canadianFrench',
-  [Locale.esMX]: 'common.mexicanSpanish',
 });
+
+const i18nValue: I18nKeys = localeFileSuffixes.get(Locale.enUS);
 ```
+
+The value type for the map can be narrowed further with the `as const`
+assertion:
+
+```ts
+const localeI18nKeys = locales.toEnumMap({
+  [Locale.enUS]: 'common.americanEnglish',
+  [Locale.enGB]: 'common.britishEnglish',
+  [Locale.frCA]: 'common.canadianFrench',
+} as const);
+
+const localeValues:
+  | 'common.americanEnglish'
+  | 'common.britishEnglish'
+  | 'common.canadianFrench' = localeFileSuffixes.get(Locale.enUS);
+```
+
+However, the above example isn't protecting against strings that don't exist in
+our `I18nKeys` union type. For the greatest type safety, the `as const`
+assertion can be paired with the `satisfies` operator:
+
+```ts
+const localeI18nKeys = locales.toEnumMap({
+  [Locale.enUS]: 'common.americanEnglish',
+  [Locale.enGB]: 'common.britishEnglish',
+  // @ts-expect-error
+  [Locale.frCA]: 'foo.bar',
+} as const satisfies Record<Locale, I18nKeys>);
+```
+
+This approach combines the type narrowing of `as const` with the type checking
+of `satisfies`. It ensures that all keys of the Locale enum are present and that
+all values are valid I18nKeys. This provides the strongest type safety, catching
+errors at compile time.
 
 <br>
 
@@ -340,6 +386,9 @@ corresponding value in the given mappings object. The mapping object value types
 may either be inferred or defined by the optional type argument. If inferred,
 it's recommended to use the `as const` assertion on the mapping object to narrow
 the value types.
+
+See [`EnumSet.prototype.toEnumMap()`](#enumsetprototypetoenummap) for nuances
+related to type narrowing and safety with the mapping object.
 
 ```ts
 fromEnum(Enum, mapping as const);

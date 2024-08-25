@@ -27,6 +27,17 @@ test('constructs', (t) => {
 	t.notThrows(createNumericMap);
 });
 
+test('constructs with a mapping of heterogeneous values', (t) => {
+	t.notThrows(() =>
+		EnumMap.fromEnum(HeterogeneousEnum, {
+			[HeterogeneousEnum.Zero]: 1,
+			[HeterogeneousEnum.One]: '',
+			[HeterogeneousEnum.Alpha]: [],
+			[HeterogeneousEnum.Bravo]: {},
+		}),
+	);
+});
+
 test("'size' reflects the number of enum members", (t) => {
 	const map = createNumericMap();
 

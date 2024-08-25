@@ -128,6 +128,19 @@ test("'toEnumMap' mapping values can be set via type argument", (t) => {
 	t.pass();
 });
 
+test("'toEnumMap' mapping values can be heterogeneous types", (t) => {
+	const set = createSet();
+
+	set.toEnumMap({
+		[HeterogeneousEnum.Zero]: 1,
+		[HeterogeneousEnum.One]: '',
+		[HeterogeneousEnum.Alpha]: [],
+		[HeterogeneousEnum.Bravo]: {},
+	} as const);
+
+	t.pass();
+});
+
 test("'values' returns enum members", (t) => {
 	const set = createSet();
 	t.snapshot(set.values());

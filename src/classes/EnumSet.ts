@@ -90,8 +90,14 @@ export default class EnumSet<TEnumMember extends EnumMember>
 	 * @returns An instance of `EnumMap` containing the enum members and their
 	 *   corresponding values.
 	 */
-	toEnumMap = <TRecordValue = any>(
-		mappings: Record<TEnumMember, TRecordValue>,
+	toEnumMap = <
+		TRecordValue = any,
+		TRecord extends Record<TEnumMember, TRecordValue> = Record<
+			TEnumMember,
+			TRecordValue
+		>,
+	>(
+		mappings: TRecord,
 	) => {
 		const enumMapTuples = Array.from(this.#set).map(
 			(member) => [member, mappings[member]] as const,
@@ -101,7 +107,7 @@ export default class EnumSet<TEnumMember extends EnumMember>
 			Record<string, TEnumMember>,
 			TEnumMember,
 			typeof mappings,
-			TRecordValue
+			TRecord[keyof TRecord]
 		>(enumMapTuples);
 	};
 
