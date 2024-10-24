@@ -44,6 +44,28 @@ test("'has' is a type guard", (t) => {
 	}
 });
 
+test("'subset' defines a new order", (t) => {
+	enum OrderedEnum {
+		Zero,
+		One,
+		Two = 'Z',
+		Three = 'A',
+		Four = 'S',
+		Five = -1,
+	}
+
+	const set = EnumSet.fromEnum(OrderedEnum);
+	const subsetArray = [
+		OrderedEnum.One,
+		OrderedEnum.Zero,
+		OrderedEnum.Three,
+		OrderedEnum.Five,
+	];
+	const subset = set.subset(subsetArray);
+
+	t.deepEqual(subsetArray, Array.from(subset));
+});
+
 test("'subset.has' throws compile error for invalid array elements", (t) => {
 	const set = createSet();
 
@@ -94,7 +116,7 @@ test("'toEnumMap' constructs an EnumMap", (t) => {
 	const keys = Array.from(map.keys());
 	const values = Array.from(map.values());
 
-	expectTypeOf(keys).toEqualTypeOf<HeterogeneousEnum[]>();
+	expectTypeOf(keys).branded.toEqualTypeOf<HeterogeneousEnum[]>();
 	expectTypeOf(values).toEqualTypeOf<
 		Array<'Zero' | 'One' | 'Alpha' | 'Bravo'>
 	>();
@@ -112,6 +134,38 @@ test("'toEnumMap' mappings are exhaustive", (t) => {
 	});
 
 	t.pass();
+});
+
+test("'toEnumMap' preserves order", (t) => {
+	enum OrderedEnum {
+		Zero,
+		One,
+		Two = 'Z',
+		Three = 'A',
+		Four = 'S',
+		Five = -1,
+	}
+
+	const set = EnumSet.fromEnum(OrderedEnum);
+
+	set.toEnumMap({
+		[OrderedEnum.Five]: '',
+		[OrderedEnum.Four]: '',
+		[OrderedEnum.One]: '',
+		[OrderedEnum.Three]: '',
+		[OrderedEnum.Two]: '',
+		[OrderedEnum.Zero]: '',
+	});
+
+	const keys = Array.from(set.keys());
+	t.deepEqual(keys, [
+		OrderedEnum.Zero,
+		OrderedEnum.One,
+		OrderedEnum.Two,
+		OrderedEnum.Three,
+		OrderedEnum.Four,
+		OrderedEnum.Five,
+	]);
 });
 
 test("'toEnumMap' mapping values can be set via type argument", (t) => {

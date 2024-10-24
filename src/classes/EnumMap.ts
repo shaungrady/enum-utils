@@ -12,7 +12,6 @@ export default class EnumMap<
 	TEnumMember extends TEnum[StringKeyOf<TEnum>],
 	TRecord extends Record<TEnumMember, any>,
 	TRecordValue extends TRecord[keyof TRecord],
-	TGuarded = Opaque<TEnumMember>,
 > implements ReadonlyMap<TEnumMember, TRecordValue>
 {
 	/**
@@ -80,7 +79,7 @@ export default class EnumMap<
 	has = (
 		value: unknown,
 	): value is TEnumMember extends number
-		? TEnumMember & TGuarded
+		? Opaque<TEnumMember, TEnumMember>
 		: TEnumMember => this.#map.has(value as TEnumMember);
 
 	/**
@@ -99,7 +98,7 @@ export default class EnumMap<
 			? // Then we can only be sure it's a valid key if it's been guarded by
 				// `has` because the types for numeric enum members are number
 				// primitives instead of number literals, like you'd expect.
-				T extends TGuarded
+				T extends Opaque<TEnumMember, TEnumMember>
 				? TRecordValue
 				: TRecordValue | undefined
 			: TRecordValue

@@ -89,7 +89,6 @@ test("'has' guards number values for numeric enums", (t) => {
 		expectTypeOf(postHasMappedValue).toMatchTypeOf<StringEnum>();
 		t.pass();
 	} else {
-		expectTypeOf(value).toEqualTypeOf<number>();
 		t.fail();
 	}
 });
@@ -173,7 +172,7 @@ test('ergonomically filters and maps', (t) => {
 	const array = [NumericEnum.One, 'Foo', Symbol(), NumericEnum.Zero];
 	const result = array.filter(map.has).map(map.get);
 
-	expectTypeOf(result).toEqualTypeOf<StringEnum[]>();
+	expectTypeOf(result).branded.toEqualTypeOf<StringEnum[]>();
 	t.deepEqual(result, [StringEnum.Bravo, StringEnum.Alpha]);
 });
 
